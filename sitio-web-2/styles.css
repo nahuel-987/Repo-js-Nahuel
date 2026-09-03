@@ -1,0 +1,66 @@
+/* NEXUS STORE - Custom CSS Extensions */
+
+body {
+    background-color: #0a0c10;
+    font-family: 'Inter', sans-serif;
+}
+
+.font-gaming {
+    font-family: 'Rajdhani', sans-serif;
+}
+
+/* Glassmorphism Panels */
+.glass-panel {
+    background: rgba(18, 22, 32, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Glow Accent Effects */
+.glow-indigo {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
+}
+
+.glow-green {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
+}
+
+.glow-pink {
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.35);
+}
+
+/* Border tokens */
+.border-nexus-border {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0c10;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1e2638;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
+}
+
+/* Interactive Tabs */
+.pm-tab.active {
+    border-color: #6366f1 !important;
+    background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+.platform-btn.active {
+    background-color: #4f46e5 !important;
+    color: #ffffff !important;
+}

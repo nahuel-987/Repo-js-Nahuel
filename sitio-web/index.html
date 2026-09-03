@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA SPORT | Ropa Deportiva y Entrenamiento</title>
+    <meta name="description" content="Descubrí ropa deportiva de alto rendimiento para gimnasio, running, fútbol y entrenamiento. Superá tus límites con NOVA SPORT.">
+    <meta name="keywords" content="ropa deportiva, running, gym, futbol, entrenamiento, nova sport">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- OVERLAY -->
+    <div class="drawer-overlay" id="overlay"></div>
+
+    <!-- HEADER / NAVBAR -->
+    <header id="header">
+        <div class="container nav-container">
+            <a href="#" class="logo">NOVA<span>SPORT</span></a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <a href="#hero" class="nav-link active">Inicio</a>
+                <a href="#catalog" class="nav-link" onclick="setCategoryFilter('Hombre')">Hombres</a>
+                <a href="#catalog" class="nav-link" onclick="setCategoryFilter('Mujer')">Mujeres</a>
+                <a href="#catalog" class="nav-link" onclick="setCategoryFilter('Fútbol')">Fútbol</a>
+                <a href="#catalog" class="nav-link" onclick="setCategoryFilter('Running')">Running</a>
+                <a href="#catalog" class="nav-link" onclick="setCategoryFilter('Gym')">Gym</a>
+                <a href="#catalog" class="nav-link" onclick="setCategoryFilter('Ofertas')">Ofertas</a>
+            </nav>
+
+            <div class="nav-icons">
+                <button class="icon-btn" onclick="scrollToCatalogSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="icon-btn" onclick="openSizeModal()"><i class="fa-solid fa-ruler-horizontal"></i></button>
+                <button class="icon-btn" onclick="openCart()"><i class="fa-solid fa-bag-shopping"></i><span class="badge" id="cart-count">0</span></button>
+                <button class="hamburger" id="hamburger"><i class="fa-solid fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-tag">Alto Rendimiento</span>
+                <h1 class="hero-title">Superá tus límites</h1>
+                <p class="hero-desc">Ropa deportiva diseñada para acompañarte en cada entrenamiento. Tecnología, libertad de movimiento y diseño en una sola prenda.</p>
+                <div class="hero-btns">
+                    <a href="#catalog" class="btn btn-primary">Comprar Ahora <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#categories" class="btn btn-secondary">Ver Colección</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORIES SECTION -->
+    <section class="categories" id="categories">
+        <div class="container">
+            <h2 class="section-title">Encontrá Tu Estilo</h2>
+            <p class="section-subtitle">Seleccioná tu disciplina y equipate con lo mejor</p>
+            
+            <div class="category-grid">
+                <div class="category-card" onclick="setCategoryFilter('Hombre')">
+                    <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=800&auto=format&fit=crop" alt="Hombre" class="category-img">
+                    <div class="category-overlay">
+                        <h3 class="category-title">Hombre</h3>
+                        <p class="category-desc">Ropa deportiva masculina de alto impacto</p>
+                        <span class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.75rem;">Ver Productos</span>
+                    </div>
+                </div>
+
+                <div class="category-card" onclick="setCategoryFilter('Mujer')">
+                    <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?q=80&w=800&auto=format&fit=crop" alt="Mujer" class="category-img">
+                    <div class="category-overlay">
+                        <h3 class="category-title">Mujer</h3>
+                        <p class="category-desc">Diseños para máxima flexibilidad y estilo</p>
+                        <span class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.75rem;">Ver Productos</span>
+                    </div>
+                </div>
+
+                <div class="category-card" onclick="setCategoryFilter('Running')">
+                    <img src="https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?q=80&w=800&auto=format&fit=crop" alt="Running" class="category-img">
+                    <div class="category-overlay">
+                        <h3 class="category-title">Running</h3>
+                        <p class="category-desc">Ligeres y transpirabilidad para sumar kilómetros</p>
+                        <span class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.75rem;">Ver Productos</span>
+                    </div>
+                </div>
+
+                <div class="category-card" onclick="setCategoryFilter('Gym')">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop" alt="Gym" class="category-img">
+                    <div class="category-overlay">
+                        <h3 class="category-title">Gym & Fitness</h3>
+                        <p class="category-desc">Resistencia garantizada para tus rutinas</p>
+                        <span class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.75rem;">Ver Productos</span>
+                    </div>
+                </div>
+
+                <div class="category-card" onclick="setCategoryFilter('Fútbol')">
+                    <img src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=800&auto=format&fit=crop" alt="Fútbol" class="category-img">
+                    <div class="category-overlay">
+                        <h3 class="category-title">Fútbol</h3>
+                        <p class="category-desc">Camisetas, shorts y accesorios de élite</p>
+                        <span class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.75rem;">Ver Productos</span>
+                    </div>
+                </div>
+
+                <div class="category-card" onclick="setCategoryFilter('Básquet')">
+                    <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=800&auto=format&fit=crop" alt="Básquet" class="category-img">
+                    <div class="category-overlay">
+                        <h3 class="category-title">Básquet</h3>
+                        <p class="category-desc">Indumentaria urbana y de alto rendimiento</p>
+                        <span class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.75rem;">Ver Productos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATALOG & FILTER SECTION -->
+    <section class="catalog-section" id="catalog">
+        <div class="container">
+            <h2 class="section-title">Productos Destacados</h2>
+            <p class="section-subtitle">Explorá nuestro catálogo completo con tecnología Dry-Fit</p>
+
+            <div class="catalog-layout">
+                <!-- Sidebar Filters -->
+                <aside class="filters-sidebar" id="filters-sidebar">
+                    <div class="filter-group">
+                        <div class="filter-title">Categorías</div>
+                        <div class="filter-options">
+                            <label><input type="radio" name="cat" value="all" checked onchange="applyFilters()"> Todas</label>
+                            <label><input type="radio" name="cat" value="Hombre" onchange="applyFilters()"> Hombre</label>
+                            <label><input type="radio" name="cat" value="Mujer" onchange="applyFilters()"> Mujer</label>
+                            <label><input type="radio" name="cat" value="Running" onchange="applyFilters()"> Running</label>
+                            <label><input type="radio" name="cat" value="Gym" onchange="applyFilters()"> Gym</label>
+                            <label><input type="radio" name="cat" value="Fútbol" onchange="applyFilters()"> Fútbol</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <div class="filter-title">Talle</div>
+                        <div class="filter-options">
+                            <label><input type="checkbox" value="XS" onchange="applyFilters()"> XS</label>
+                            <label><input type="checkbox" value="S" onchange="applyFilters()"> S</label>
+                            <label><input type="checkbox" value="M" onchange="applyFilters()"> M</label>
+                            <label><input type="checkbox" value="L" onchange="applyFilters()"> L</label>
+                            <label><input type="checkbox" value="XL" onchange="applyFilters()"> XL</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <div class="filter-title">Precio Máximo</div>
+                        <input type="range" class="price-range" id="price-range" min="20000" max="80000" step="5000" value="80000" oninput="updatePriceLabel(this.value)" onchange="applyFilters()">
+                        <div class="price-values">
+                            <span>$20.000</span>
+                            <span id="price-val">$80.000</span>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Products Display -->
+                <main class="catalog-main">
+                    <div class="catalog-topbar">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="search-input" placeholder="Buscar productos..." onkeyup="applyFilters()">
+                        </div>
+                        <select class="sort-select" id="sort-select" onchange="applyFilters()">
+                            <option value="relevance">Ordenar por: Relevancia</option>
+                            <option value="price-low">Precio: Menor a Mayor</option>
+                            <option value="price-high">Precio: Mayor a Menor</option>
+                        </select>
+                    </div>
+
+                    <div class="products-grid" id="products-grid">
+                        <!-- Rendered via JavaScript -->
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROMO BANNER -->
+    <section class="promo-banner">
+        <div class="container">
+            <div class="promo-content">
+                <span class="hero-tag">Oferta Especial</span>
+                <h2 class="promo-title">HASTA 40% OFF</h2>
+                <p style="margin-bottom: 1.5rem; color: #ddd;">En productos seleccionados de entrenamiento y Running. Equipate con calidad premium al mejor precio.</p>
+                <a href="#catalog" onclick="setCategoryFilter('Ofertas')" class="btn btn-primary">Ver Ofertas</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFITS SECTION -->
+    <section class="benefits">
+        <div class="container">
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fa-solid fa-truck-fast benefit-icon"></i>
+                    <div class="benefit-info">
+                        <h4>Envíos a todo el país</h4>
+                        <p>Gratis a partir de $100.000</p>
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <i class="fa-solid fa-shield-halved benefit-icon"></i>
+                    <div class="benefit-info">
+                        <h4>Compra Segura</h4>
+                        <p>Protegemos tus datos</p>
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <i class="fa-solid fa-rotate-left benefit-icon"></i>
+                    <div class="benefit-info">
+                        <h4>Cambios Fáciles</h4>
+                        <p>Hasta 30 días para cambiar</p>
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <i class="fa-solid fa-credit-card benefit-icon"></i>
+                    <div class="benefit-info">
+                        <h4>Pagá como quieras</h4>
+                        <p>Tarjetas y Mercado Pago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY NOVA SPORT -->
+    <section class="why-us">
+        <div class="container">
+            <h2 class="section-title">Más que ropa. Es tu actitud.</h2>
+            <p class="section-subtitle">Diseñamos prendas pensadas para ofrecer comodidad, libertad de movimiento y estilo en cada entrenamiento.</p>
+            
+            <div class="why-grid">
+                <div class="why-card">
+                    <i class="fa-solid fa-feather"></i>
+                    <h3>Comodidad</h3>
+                    <p>Materiales ultra livianos y costuras planas pensados para evitar rozaduras durante entrenamientos extensos.</p>
+                </div>
+                <div class="why-card">
+                    <i class="fa-solid fa-bolt"></i>
+                    <h3>Rendimiento</h3>
+                    <p>Tejidos transpirables de secado rápido que mantienen tu cuerpo fresco bajo las condiciones más exigentes.</p>
+                </div>
+                <div class="why-card">
+                    <i class="fa-solid fa-fire"></i>
+                    <h3>Estilo</h3>
+                    <p>Diseños modernos y minimalistas perfectamente adaptados para la actividad física y el uso urbano diario.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+            <p class="section-subtitle">Atletas y apasionados del deporte confían en NOVA SPORT</p>
+
+            <div class="testi-grid">
+                <div class="testi-card">
+                    <div class="testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="testi-text">"La calidad de las remeras es insuperable. Absorben excelente el sudor en las sesiones de gimnasio intensas."</p>
+                    <div class="testi-author">— Alex P.</div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="testi-text">"El envío llegó super rápido a mi casa. La calza Flex se amolda perfecto y el calce es súper cómodo."</p>
+                    <div class="testi-author">— Matias C.</div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="testi-text">"Excelente estética deportiva minimalista. Los talles concuerdan perfectamente con la guía del sitio."</p>
+                    <div class="testi-author">— Leonel A.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>NO TE PIERDAS NADA</h2>
+            <p>Recibí novedades, lanzamientos y un 10% OFF en tu primera compra.</p>
+            <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                <input type="email" id="news-email" placeholder="Tu correo electrónico" required>
+                <button type="submit">Suscribirme</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">NOVA<span>SPORT</span></a>
+                    <p>Entrená. Superate. Llegá más lejos.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Tienda</h4>
+                    <ul>
+                        <li><a href="#catalog" onclick="setCategoryFilter('Hombre')">Hombre</a></li>
+                        <li><a href="#catalog" onclick="setCategoryFilter('Mujer')">Mujer</a></li>
+                        <li><a href="#catalog" onclick="setCategoryFilter('Running')">Running</a></li>
+                        <li><a href="#catalog" onclick="setCategoryFilter('Gym')">Gym</a></li>
+                        <li><a href="#catalog" onclick="setCategoryFilter('Fútbol')">Fútbol</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Ayuda</h4>
+                    <ul>
+                        <li><a href="#">Contacto</a></li>
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Envíos</a></li>
+                        <li><a href="#">Cambios y Devoluciones</a></li>
+                        <li><a href="#" onclick="openSizeModal()">Guía de Talles</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Información</h4>
+                    <ul>
+                        <li><a href="#">Sobre Nosotros</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 NOVA SPORT. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CART DRAWER -->
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3 style="font-family: var(--font-heading); font-weight: 800;">TU CARRITO</h3>
+            <button class="close-modal" onclick="closeCart()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Items rendered via JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-row">
+                <span>Subtotal:</span>
+                <span id="cart-subtotal">$0</span>
+            </div>
+            <div class="cart-row">
+                <span>Envío:</span>
+                <span id="cart-shipping">Gratis</span>
+            </div>
+            <div class="cart-row cart-total">
+                <span>Total:</span>
+                <span id="cart-total">$0</span>
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="openCheckout()">Finalizar Compra</button>
+        </div>
+    </div>
+
+    <!-- SIZE GUIDE MODAL -->
+    <div class="modal" id="size-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeSizeModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-family: var(--font-heading); font-weight: 800; margin-bottom: 0.5rem;">GUÍA DE TALLES</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Las medidas se expresan en centímetros y corresponden al contorno del cuerpo.</p>
+            
+            <table class="size-table">
+                <thead>
+                    <tr>
+                        <th>Talle</th>
+                        <th>Pecho</th>
+                        <th>Cintura</th>
+                        <th>Cadera</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>XS</td><td>84-88 cm</td><td>68-72 cm</td><td>88-92 cm</td></tr>
+                    <tr><td>S</td><td>88-92 cm</td><td>72-76 cm</td><td>92-96 cm</td></tr>
+                    <tr><td>M</td><td>92-98 cm</td><td>76-82 cm</td><td>96-102 cm</td></tr>
+                    <tr><td>L</td><td>98-104 cm</td><td>82-88 cm</td><td>102-108 cm</td></tr>
+                    <tr><td>XL</td><td>104-112 cm</td><td>88-96 cm</td><td>108-116 cm</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content" style="max-width: 550px;">
+            <button class="close-modal" onclick="closeCheckout()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-family: var(--font-heading); font-weight: 800; margin-bottom: 1rem;">FINALIZAR COMPRA</h3>
+            
+            <form onsubmit="processOrder(event)" style="display: flex; flex-direction: column; gap: 0.8rem;">
+                <input type="text" placeholder="Nombre completo" required style="padding: 0.8rem; background: var(--bg-surface); border: 1px solid var(--border-color); color: #fff; border-radius: 4px;">
+                <input type="email" placeholder="Correo electrónico" required style="padding: 0.8rem; background: var(--bg-surface); border: 1px solid var(--border-color); color: #fff; border-radius: 4px;">
+                <input type="text" placeholder="Dirección de envío" required style="padding: 0.8rem; background: var(--bg-surface); border: 1px solid var(--border-color); color: #fff; border-radius: 4px;">
+                
+                <label style="font-size: 0.85rem; font-weight: 700; margin-top: 0.5rem;">Método de Pago</label>
+                <select style="padding: 0.8rem; background: var(--bg-surface); border: 1px solid var(--border-color); color: #fff; border-radius: 4px;">
+                    <option>Tarjeta de Crédito / Débito</option>
+                    <option>Mercado Pago</option>
+                    <option>Transferencia Bancaria</option>
+                </select>
+
+                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Confirmar Pedido</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- QUICKVIEW PRODUCT MODAL -->
+    <div class="modal" id="qv-modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <button class="close-modal" onclick="closeQuickview()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="qv-grid" id="qv-content">
+                <!-- Rendered Dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- JS Script -->
+    <script src="script.js"></script>
+</body>
+</html>

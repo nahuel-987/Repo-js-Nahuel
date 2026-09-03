@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS STORE | Plataforma Digital de Videojuegos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0a0c10] text-slate-100 font-sans min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-nexus-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-8">
+                <a href="#" onclick="switchView('store')" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-indigo-600 to-pink-500 rounded-xl flex items-center justify-center glow-indigo group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-gamepad text-xl text-white"></i>
+                    </div>
+                    <span class="font-gaming text-2xl font-bold tracking-wider text-white">NEXUS<span class="text-indigo-500">STORE</span></span>
+                </a>
+
+                <!-- Nav Menu -->
+                <nav class="hidden lg:flex items-center gap-6 text-xs font-semibold uppercase tracking-wider">
+                    <button onclick="switchView('store')" class="hover:text-indigo-400 transition-colors">Inicio</button>
+                    <button onclick="filterByTag('oferta')" class="hover:text-pink-400 transition-colors text-pink-500 flex items-center gap-1">
+                        <i class="fa-solid fa-fire"></i> Ofertas
+                    </button>
+                    <button onclick="filterByTag('lanzamiento')" class="hover:text-indigo-400 transition-colors">Novedades</button>
+                    <button onclick="filterByTag('demo')" class="hover:text-emerald-400 transition-colors text-emerald-400 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-play"></i> Demos
+                    </button>
+                    <button onclick="switchView('bundles')" class="hover:text-amber-400 transition-colors text-amber-400">Bundles</button>
+                    <button onclick="switchView('admin')" class="bg-amber-500/10 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full hover:bg-amber-500 hover:text-black transition-all">
+                        <i class="fa-solid fa-user-shield mr-1"></i> Admin
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Header Right Controls -->
+            <div class="flex items-center gap-3">
+                <!-- Currency Selector -->
+                <select id="currency-select" onchange="changeCurrency(this.value)" class="bg-[#121620] border border-nexus-border text-xs px-2.5 py-1.5 rounded-lg focus:outline-none focus:border-indigo-500 text-slate-300">
+                    <option value="ARS">ARS ($)</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                </select>
+
+                <!-- Global Search Input -->
+                <div class="relative hidden md:block w-56">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                    <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Buscar títulos, sagas..." class="w-full bg-[#121620] border border-nexus-border rounded-lg pl-9 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+                </div>
+
+                <!-- Wishlist Toggle -->
+                <button onclick="switchView('wishlist')" class="relative p-2.5 rounded-lg bg-[#121620] border border-nexus-border hover:border-indigo-500 transition-colors">
+                    <i class="fa-regular fa-heart text-slate-300"></i>
+                    <span id="wishlist-badge" class="absolute -top-1 -right-1 bg-pink-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </button>
+
+                <!-- Cart Toggle -->
+                <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-lg bg-[#121620] border border-nexus-border hover:border-indigo-500 transition-colors">
+                    <i class="fa-solid fa-cart-shopping text-slate-300"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </button>
+
+                <!-- User Library Button -->
+                <button onclick="switchView('library')" class="flex items-center gap-2 bg-[#121620] border border-nexus-border hover:border-indigo-500 px-3 py-1.5 rounded-lg transition-colors">
+                    <div class="w-6 h-6 rounded-full bg-indigo-600/30 text-indigo-400 flex items-center justify-center font-bold text-xs">E</div>
+                    <span class="text-xs font-semibold hidden sm:inline">Mi Biblioteca</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- STORE VIEW -->
+        <div id="view-store" class="space-y-10">
+            
+            <!-- HERO FEATURED CAROUSEL -->
+            <section class="relative rounded-2xl overflow-hidden border border-nexus-border bg-[#121620] min-h-[440px] flex items-end p-8 md:p-12">
+                <div class="absolute inset-0 z-0">
+                    <img id="hero-bg" src="" class="w-full h-full object-cover opacity-40 transition-all duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-[#0a0c10]/60 to-transparent"></div>
+                </div>
+
+                <div class="relative z-10 max-w-2xl space-y-4">
+                    <div class="flex items-center gap-2">
+                        <span id="hero-badge" class="bg-indigo-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Destacado</span>
+                        <span id="hero-platform" class="bg-slate-800/90 text-slate-300 border border-slate-700 text-xs px-2.5 py-0.5 rounded-md">Steam</span>
+                    </div>
+                    <h1 id="hero-title" class="font-gaming text-4xl md:text-6xl font-bold tracking-wide text-white leading-none">Title</h1>
+                    <p id="hero-desc" class="text-slate-400 text-xs md:text-sm line-clamp-2">Description</p>
+                    
+                    <div class="flex items-center gap-4 pt-2">
+                        <div class="flex items-baseline gap-2">
+                            <span id="hero-price" class="font-gaming text-3xl font-bold text-emerald-400">$0</span>
+                            <span id="hero-old-price" class="text-xs line-through text-slate-500"></span>
+                        </div>
+                        <button id="hero-buy-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all glow-indigo flex items-center gap-2">
+                            <i class="fa-solid fa-bag-shopping"></i> Comprar Ahora
+                        </button>
+                        <button id="hero-demo-btn" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-500/30 px-4 py-3 rounded-xl font-semibold text-xs transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-circle-play"></i> Probar Demo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Carousel Dot Controls -->
+                <div id="hero-dots" class="absolute bottom-6 right-8 z-10 flex gap-2"></div>
+            </section>
+
+            <!-- FILTERS & TOOLBAR -->
+            <section class="glass-panel p-5 rounded-2xl space-y-4">
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
+                    <!-- Platform Selector -->
+                    <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+                        <button onclick="setFilter('platform', 'all')" class="platform-btn active bg-indigo-600 text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all">Todas</button>
+                        <button onclick="setFilter('platform', 'Steam')" class="platform-btn bg-[#121620] border border-nexus-border hover:border-indigo-500 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"><i class="fa-brands fa-steam mr-1"></i> Steam</button>
+                        <button onclick="setFilter('platform', 'Epic Games')" class="platform-btn bg-[#121620] border border-nexus-border hover:border-indigo-500 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all">Epic Games</button>
+                        <button onclick="setFilter('platform', 'GOG')" class="platform-btn bg-[#121620] border border-nexus-border hover:border-indigo-500 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all">GOG</button>
+                        <button onclick="setFilter('platform', 'Xbox')" class="platform-btn bg-[#121620] border border-nexus-border hover:border-indigo-500 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all"><i class="fa-brands fa-xbox mr-1"></i> Xbox</button>
+                        <button onclick="setFilter('platform', 'EA App')" class="platform-btn bg-[#121620] border border-nexus-border hover:border-indigo-500 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all">EA App</button>
+                    </div>
+
+                    <!-- Genre & Sorting Dropdowns -->
+                    <div class="flex items-center gap-3 w-full lg:w-auto">
+                        <select id="genre-filter" onchange="setFilter('genre', this.value)" class="bg-[#121620] border border-nexus-border rounded-lg text-xs px-3 py-2 text-slate-300 focus:outline-none focus:border-indigo-500 flex-1">
+                            <option value="all">Todos los Géneros</option>
+                            <option value="RPG">RPG</option>
+                            <option value="Acción">Acción</option>
+                            <option value="Terror">Terror</option>
+                            <option value="Deportes">Deportes</option>
+                            <option value="Aventura">Aventura</option>
+                            <option value="Shooter">Shooter</option>
+                            <option value="Estrategia">Estrategia</option>
+                        </select>
+
+                        <select id="sort-filter" onchange="setSort(this.value)" class="bg-[#121620] border border-nexus-border rounded-lg text-xs px-3 py-2 text-slate-300 focus:outline-none focus:border-indigo-500 flex-1">
+                            <option value="popular">Más Populares</option>
+                            <option value="price-low">Precio: Menor a Mayor</option>
+                            <option value="price-high">Precio: Mayor a Menor</option>
+                            <option value="discount">Mayor Descuento</option>
+                            <option value="rating">Mejor Valorados</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CATALOG GRID -->
+            <section class="space-y-6">
+                <div class="flex items-center justify-between border-b border-nexus-border pb-3">
+                    <h2 class="font-gaming text-2xl font-bold tracking-wide text-white flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-indigo-500"></i> Catálogo Completo
+                    </h2>
+                    <span id="results-count" class="text-xs text-slate-400">0 títulos disponibles</span>
+                </div>
+
+                <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Game Cards Render Dynamically Here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- BUNDLES VIEW -->
+        <div id="view-bundles" class="hidden space-y-8">
+            <div class="border-b border-nexus-border pb-4 flex items-center justify-between">
+                <div>
+                    <h1 class="font-gaming text-3xl font-bold text-amber-400"><i class="fa-solid fa-boxes-stacked mr-2"></i> Packs & Bundles Especiales</h1>
+                    <p class="text-xs text-slate-400">Consigue sagas y colecciones completas con descuentos extraordinarios.</p>
+                </div>
+                <button onclick="switchView('store')" class="bg-[#121620] border border-nexus-border text-xs px-4 py-2 rounded-lg hover:border-indigo-500"><i class="fa-solid fa-arrow-left mr-1"></i> Volver a la Tienda</button>
+            </div>
+
+            <div id="bundles-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Bundles Dynamic Ingress -->
+            </div>
+        </div>
+
+        <!-- LIBRARY VIEW -->
+        <div id="view-library" class="hidden space-y-8">
+            <div class="border-b border-nexus-border pb-4 flex items-center justify-between">
+                <div>
+                    <h1 class="font-gaming text-3xl font-bold text-white">Mi Biblioteca Digital</h1>
+                    <p class="text-xs text-slate-400">Tus juegos comprados, claves de activación e instrucciones de instalación.</p>
+                </div>
+                <button onclick="switchView('store')" class="bg-[#121620] border border-nexus-border text-xs px-4 py-2 rounded-lg hover:border-indigo-500"><i class="fa-solid fa-arrow-left mr-1"></i> Ir al Catálogo</button>
+            </div>
+
+            <div id="library-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Purchased Items Injected Here -->
+            </div>
+        </div>
+
+        <!-- WISHLIST VIEW -->
+        <div id="view-wishlist" class="hidden space-y-8">
+            <div class="border-b border-nexus-border pb-4 flex items-center justify-between">
+                <div>
+                    <h1 class="font-gaming text-3xl font-bold text-pink-500"><i class="fa-solid fa-heart mr-2"></i> Mi Lista de Deseos</h1>
+                    <p class="text-xs text-slate-400">Títulos guardados para seguimiento de ofertas e histórico.</p>
+                </div>
+                <button onclick="switchView('store')" class="bg-[#121620] border border-nexus-border text-xs px-4 py-2 rounded-lg hover:border-indigo-500"><i class="fa-solid fa-arrow-left mr-1"></i> Volver a la Tienda</button>
+            </div>
+
+            <div id="wishlist-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Wishlist Items Injected Here -->
+            </div>
+        </div>
+
+        <!-- ADMIN DASHBOARD VIEW -->
+        <div id="view-admin" class="hidden space-y-8">
+            <div class="border-b border-nexus-border pb-4 flex items-center justify-between">
+                <div>
+                    <h1 class="font-gaming text-3xl font-bold text-amber-400"><i class="fa-solid fa-chart-line mr-2"></i> Panel de Administración</h1>
+                    <p class="text-xs text-slate-400">Métricas de rendimiento, ingresos, inventario de claves y stock.</p>
+                </div>
+                <button onclick="switchView('store')" class="bg-[#121620] border border-nexus-border text-xs px-4 py-2 rounded-lg hover:border-indigo-500"><i class="fa-solid fa-arrow-left mr-1"></i> Volver a la Tienda</button>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-panel p-5 rounded-xl space-y-1">
+                    <span class="text-xs text-slate-400">Ingresos Brutos</span>
+                    <p id="admin-total-revenue" class="font-gaming text-3xl font-bold text-emerald-400">$0 ARS</p>
+                    <span class="text-[10px] text-emerald-500"><i class="fa-solid fa-arrow-trend-up mr-1"></i>+24.5% este mes</span>
+                </div>
+                <div class="glass-panel p-5 rounded-xl space-y-1">
+                    <span class="text-xs text-slate-400">Claves Vendidas</span>
+                    <p id="admin-total-sales" class="font-gaming text-3xl font-bold text-indigo-400">0 Licencias</p>
+                    <span class="text-[10px] text-indigo-400"><i class="fa-solid fa-key mr-1"></i>Stock Automatizado API</span>
+                </div>
+                <div class="glass-panel p-5 rounded-xl space-y-1">
+                    <span class="text-xs text-slate-400">Demos Ejecutadas</span>
+                    <p class="font-gaming text-3xl font-bold text-pink-400">1,420 Pruebas</p>
+                    <span class="text-[10px] text-pink-400"><i class="fa-solid fa-gamepad mr-1"></i>Tasa Conversión 18%</span>
+                </div>
+                <div class="glass-panel p-5 rounded-xl space-y-1">
+                    <span class="text-xs text-slate-400">Usuarios Registrados</span>
+                    <p class="font-gaming text-3xl font-bold text-white">2,850 Jugadores</p>
+                    <span class="text-[10px] text-slate-400">Servidores Verificados</span>
+                </div>
+            </div>
+
+            <!-- Inventory Admin Table -->
+            <div class="glass-panel rounded-xl p-6 space-y-4">
+                <h3 class="font-gaming text-xl font-bold text-white">Inventario de Videojuegos y Licencias</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-[#121620] text-slate-400 border-b border-nexus-border uppercase font-semibold">
+                            <tr>
+                                <th class="p-3">Título</th>
+                                <th class="p-3">Plataforma</th>
+                                <th class="p-3">Precio Base</th>
+                                <th class="p-3">Descuento</th>
+                                <th class="p-3">Stock Claves</th>
+                                <th class="p-3">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-table-body" class="divide-y divide-nexus-border">
+                            <!-- Dynamic Admin Data Rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#121620] border-t border-nexus-border mt-16 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="space-y-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center font-gaming font-bold text-white">N</div>
+                    <span class="font-gaming text-xl font-bold text-white">NEXUS STORE</span>
+                </div>
+                <p class="text-xs text-slate-400">Tienda digital autorizada para licencias globales, ofertas de temporada y distribución de demos.</p>
+            </div>
+            <div>
+                <h4 class="font-gaming font-bold text-white mb-3">Navegación</h4>
+                <ul class="text-xs space-y-2 text-slate-400">
+                    <li><a href="#" onclick="switchView('store')" class="hover:text-indigo-400">Catálogo Principal</a></li>
+                    <li><a href="#" onclick="filterByTag('oferta')" class="hover:text-indigo-400">Ofertas Especiales</a></li>
+                    <li><a href="#" onclick="switchView('bundles')" class="hover:text-indigo-400">Bundles Destacados</a></li>
+                    <li><a href="#" onclick="filterByTag('demo')" class="hover:text-indigo-400">Demos Gratuitas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-gaming font-bold text-white mb-3">Integraciones</h4>
+                <ul class="text-xs space-y-2 text-slate-400">
+                    <li>Steam Key Activation API</li>
+                    <li>Epic Games Launcher Sync</li>
+                    <li>GOG DRM-Free Library</li>
+                    <li>Ubisoft Connect & EA App</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-gaming font-bold text-white mb-3">Soporte & Métodos</h4>
+                <p class="text-xs text-slate-400 mb-3">Procesamiento seguro en Mercado Pago, Tarjeta de Crédito, PayPal y Crypto USDT.</p>
+                <div class="flex gap-3 text-slate-400 text-lg">
+                    <i class="fa-brands fa-cc-visa"></i>
+                    <i class="fa-brands fa-cc-mastercard"></i>
+                    <i class="fa-brands fa-paypal"></i>
+                    <i class="fa-brands fa-bitcoin"></i>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-6 border-t border-nexus-border text-center text-xs text-slate-500">
+            © 2026 NEXUS GAMES DIGITAL S.A. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- MODAL: GAME DETAILS -->
+    <div id="modal-details" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[#121620] border border-nexus-border rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 relative">
+            <button onclick="closeModal('modal-details')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <div id="modal-details-content">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: DEMO LAUNCHER -->
+    <div id="modal-demo" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[#121620] border border-emerald-500/30 rounded-2xl max-w-lg w-full p-6 space-y-6 relative glow-green">
+            <button onclick="closeModal('modal-demo')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <h3 class="font-gaming text-2xl font-bold text-white">Prueba Gratuita de Juego</h3>
+                <p id="demo-game-title" class="text-sm font-semibold text-emerald-400">Game Title</p>
+            </div>
+
+            <div class="bg-[#0a0c10] p-4 rounded-xl space-y-2.5 text-xs border border-nexus-border text-slate-300">
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Tiempo de Prueba:</span>
+                    <span class="font-semibold text-white">60 Minutos Libre Access</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Tamaño del Instalador:</span>
+                    <span class="font-semibold text-white">14.2 GB</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-500">Compatibilidad Hardware:</span>
+                    <span class="font-semibold text-emerald-400"><i class="fa-solid fa-check mr-1"></i>Verificado</span>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <button onclick="launchDemoSimulation()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-download"></i> Descargar e Iniciar Demo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART DRAWER / SIDEBAR -->
+    <div id="modal-cart" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex justify-end">
+        <div class="bg-[#121620] border-l border-nexus-border w-full max-w-md h-full p-6 flex flex-col justify-between space-y-6">
+            <div class="space-y-4 flex-grow overflow-hidden flex flex-col">
+                <div class="flex items-center justify-between border-b border-nexus-border pb-4">
+                    <h3 class="font-gaming text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-cart-shopping text-indigo-500"></i> Mi Carrito
+                    </h3>
+                    <button onclick="toggleCartDrawer()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+
+                <!-- Cart Items -->
+                <div id="cart-items-list" class="flex-grow overflow-y-auto space-y-3 pr-2">
+                    <!-- Dynamic Cart Rows -->
+                </div>
+            </div>
+
+            <!-- Cart Summary & Promo -->
+            <div class="space-y-4 border-t border-nexus-border pt-4">
+                <div class="flex gap-2">
+                    <input type="text" id="promo-code-input" placeholder="Código: SUMMER50, INDIE20" class="bg-[#0a0c10] border border-nexus-border rounded-lg px-3 py-2 text-xs uppercase flex-grow focus:outline-none focus:border-indigo-500 text-white">
+                    <button onclick="applyCoupon()" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg text-xs font-semibold">Aplicar</button>
+                </div>
+
+                <div class="space-y-1.5 text-xs text-slate-400">
+                    <div class="flex justify-between"><span>Subtotal:</span><span id="cart-subtotal">$0 ARS</span></div>
+                    <div class="flex justify-between text-pink-400"><span>Descuento Aplicado:</span><span id="cart-discount">-$0 ARS</span></div>
+                    <div class="flex justify-between text-white font-bold text-base pt-2 border-t border-nexus-border">
+                        <span>Total:</span><span id="cart-total" class="text-emerald-400">$0 ARS</span>
+                    </div>
+                </div>
+
+                <button onclick="openCheckoutModal()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all glow-indigo flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-credit-card"></i> Proceder al Pago
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT & MULTI-PAYMENT MODAL -->
+    <div id="modal-checkout" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-[#121620] border border-nexus-border rounded-2xl max-w-2xl w-full max-h-[92vh] overflow-y-auto p-6 space-y-6 relative">
+            <button onclick="closeModal('modal-checkout')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+
+            <div class="border-b border-nexus-border pb-3">
+                <h2 class="font-gaming text-2xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-emerald-400"></i> Finalizar Compra Segura
+                </h2>
+                <p class="text-xs text-slate-400">Selecciona tu método de pago preferido para emitir tus licencias digitales.</p>
+            </div>
+
+            <!-- Summary Order Table -->
+            <div class="bg-[#0a0c10] p-4 rounded-xl border border-nexus-border space-y-2">
+                <h4 class="font-gaming font-bold text-xs text-indigo-400 uppercase">Resumen del Pedido</h4>
+                <div id="checkout-items-summary" class="text-xs space-y-1 text-slate-300 divide-y divide-nexus-border">
+                    <!-- Dynamic summary items -->
+                </div>
+                <div class="flex justify-between items-center pt-2 font-bold text-emerald-400 text-sm">
+                    <span>Total Final:</span>
+                    <span id="checkout-total-amount">$0 ARS</span>
+                </div>
+            </div>
+
+            <!-- Payment Options Tabs -->
+            <div class="space-y-4">
+                <h4 class="font-gaming font-bold text-xs text-slate-400 uppercase">Selecciona Método de Pago</h4>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button onclick="selectPaymentMethod('mercadopago')" id="pm-mercadopago" class="pm-tab active bg-[#0a0c10] border border-indigo-500 p-3 rounded-xl flex flex-col items-center justify-center gap-1 text-xs hover:border-indigo-500 transition-all">
+                        <i class="fa-solid fa-hand-holding-dollar text-cyan-400 text-xl"></i>
+                        <span class="font-bold">Mercado Pago</span>
+                    </button>
+                    <button onclick="selectPaymentMethod('card')" id="pm-card" class="pm-tab bg-[#0a0c10] border border-nexus-border p-3 rounded-xl flex flex-col items-center justify-center gap-1 text-xs hover:border-indigo-500 transition-all">
+                        <i class="fa-solid fa-credit-card text-indigo-400 text-xl"></i>
+                        <span class="font-bold">Tarjeta Débito/Crédito</span>
+                    </button>
+                    <button onclick="selectPaymentMethod('paypal')" id="pm-paypal" class="pm-tab bg-[#0a0c10] border border-nexus-border p-3 rounded-xl flex flex-col items-center justify-center gap-1 text-xs hover:border-indigo-500 transition-all">
+                        <i class="fa-brands fa-paypal text-blue-400 text-xl"></i>
+                        <span class="font-bold">PayPal</span>
+                    </button>
+                    <button onclick="selectPaymentMethod('crypto')" id="pm-crypto" class="pm-tab bg-[#0a0c10] border border-nexus-border p-3 rounded-xl flex flex-col items-center justify-center gap-1 text-xs hover:border-indigo-500 transition-all">
+                        <i class="fa-brands fa-bitcoin text-amber-400 text-xl"></i>
+                        <span class="font-bold">USDT / Cripto</span>
+                    </button>
+                </div>
+
+                <!-- Payment Dynamic Body Inputs -->
+                <div id="payment-body-mercadopago" class="payment-body bg-[#0a0c10] p-4 rounded-xl border border-nexus-border text-xs space-y-3">
+                    <div class="flex items-center gap-3 text-cyan-400 font-semibold">
+                        <i class="fa-solid fa-qrcode text-3xl"></i>
+                        <div>
+                            <p class="text-white font-bold">Escanea el código QR desde tu App de Mercado Pago</p>
+                            <p class="text-[11px] text-slate-400">Acreditación instantánea de claves digitales.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="payment-body-card" class="payment-body hidden bg-[#0a0c10] p-4 rounded-xl border border-nexus-border text-xs space-y-3">
+                    <div class="space-y-2">
+                        <input type="text" placeholder="Número de Tarjeta (16 dígitos)" class="w-full bg-[#121620] border border-nexus-border rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" placeholder="MM/YY" class="bg-[#121620] border border-nexus-border rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500">
+                            <input type="text" placeholder="CVV" class="bg-[#121620] border border-nexus-border rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <input type="text" placeholder="Nombre en la Tarjeta" class="w-full bg-[#121620] border border-nexus-border rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500">
+                    </div>
+                </div>
+
+                <div id="payment-body-paypal" class="payment-body hidden bg-[#0a0c10] p-4 rounded-xl border border-nexus-border text-xs space-y-2">
+                    <p class="text-slate-300">Serás redirigido a PayPal para autorizar el pago con tu cuenta internacional.</p>
+                </div>
+
+                <div id="payment-body-crypto" class="payment-body hidden bg-[#0a0c10] p-4 rounded-xl border border-nexus-border text-xs space-y-2">
+                    <p class="text-slate-400">Billetera de depósito (Red TRC-20 USDT):</p>
+                    <code class="bg-[#121620] p-2 rounded block text-amber-400 font-mono select-all">TX9zK8qL3pMv1wR5Yt2N7uX4bC8vE0zQ1</code>
+                </div>
+            </div>
+
+            <!-- Complete Action Button -->
+            <button onclick="confirmAndGenerateKeys()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all glow-green flex items-center justify-center gap-2">
+                <i class="fa-solid fa-lock mr-1"></i> Confirmar Pago y Generar Licencias
+            </button>
+        </div>
+    </div>
+
+
+<div id="modal-success" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-[#121620] border border-emerald-500/40 rounded-2xl max-w-md w-full p-6 space-y-4 relative text-center glow-green">
+        
+        <button onclick="closeModal('modal-success')" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
+            <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+
+        <div class="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto text-2xl">
+            <i class="fa-solid fa-trophy"></i>
+        </div>
+
+        <div class="space-y-1">
+            <h3 class="font-gaming text-2xl font-bold text-white">¡Gracias por tu compra!</h3>
+            <p class="text-xs text-slate-400">Tus juegos ya están disponibles con sus enlaces individuales:</p>
+        </div>
+
+        <div id="success-message" class="bg-[#0a0c10] p-3 rounded-xl border border-nexus-border text-left space-y-2.5 max-h-60 overflow-y-auto">
+            </div>
+
+        <button onclick="closeModal('modal-success')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
+            Aceptar
+        </button>
+    </div>
+</div>
+
+    <!-- MAIN SCRIPT -->
+    <script src="script.js"></script>
+</body>
+</html>
